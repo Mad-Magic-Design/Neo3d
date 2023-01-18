@@ -1,0 +1,43 @@
+:root{
+    --primary-light: #FFDDAD;
+    --primary-med: #DBBE95;
+    --primary-dark: #FFBD61;
+    --secondary-light: #19A6FF;
+    --secondary-med: #0087DB;
+    --secondary-dark: #00588F;
+
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+    background-color: var(--secondary-dark);
+    color: var(--primary-light);
+    font-family: 'Strait', sans-serif;
+}
+
+h1, p, h6{
+    text-align: center;
+}
+
+h1, h6{
+    text-decoration: underline;
+}
+
+canvas{
+    border-radius: 15px;
+}
+
+.canvas-border{
+    border-radius: 15px;
+    border: 15px solid;
+    border-color: var(--primary-dark);
+}
+
+.text-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
