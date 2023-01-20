@@ -14,13 +14,16 @@
 	<body>
 		<div class="container">
 			<div class="row">
+				<h1>Neo Today</h1>
+			</div>
+			<div class="row">
 				<div class="col-md-auto">
 					
 					<canvas id="space" ></canvas>
 				
-				</div> 
-				 <div class="col-md-4 text-container">
-					<h1>Neo Today</h1>
+				</div>
+				<div class="info-wrapper col-md-4">
+				 <div id="text-container" class="hidden text-container">
 					<h6>Name</h6>
 					<p id="name-text"></p>
 					<h6>Distance From Earth</h6>
@@ -29,8 +32,11 @@
 					<p><span id="size-text"></span> kms</p>
 					<h6>Speed</h6>
 					<p><span id="speed-text"></span> km/s</p>
-
 				</div>
+				<div id="loading" class="text-container">
+					<h6 id="loading-text">LOADING DATA...</h6>
+				</div>
+			</div>
 			</div>
 		</div>
 

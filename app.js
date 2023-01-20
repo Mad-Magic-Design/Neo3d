@@ -13,6 +13,8 @@ const demoRequestLink ='https://jsonplaceholder.typicode.com/users'
 const requestLink = 'https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+ '&end_date='+today+'&api_key=' + apiKey;
 
 let fetchedData
+let neoSelected = false
+let lastSelected
 
 function normalize (x, xMin, xMax){
   return (x-xMin)/(xMax - xMin)
@@ -61,7 +63,9 @@ async function getData() {
 
   const neoData = neoInfoObjects.map((neoObj, index)=>{  //don't need y animated anymore
     return {
-      radius: neoObj.diameter*25+10,
+      //radius: neoObj.diameter*25+10,
+      //radius: neoObj.diameter*15+10,
+      radius: neoObj.diameter*10+10,
       x:-650,
       targetX: 1300*normalizedSpeed[index]-650,  //maxdistance * normalized - half of maxed distance
       y: 1000*normalizedLunars[index] - 400,
@@ -70,9 +74,9 @@ async function getData() {
     }
   })
 
+  
 
-
-
+  $("#loading-text").text('select NEO to see data')
 
 
 
@@ -91,6 +95,8 @@ async function getData() {
   const directionalLight = new THREE.DirectionalLight( 0xF4E99B, 1);
   scene.add( directionalLight );
   directionalLight.position.set(0, -1000, 0)
+  const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+  scene.add( light );
  
 
   const renderer = new THREE.WebGLRenderer({canvas: space} );
@@ -106,16 +112,17 @@ async function getData() {
     map: texture
   })
   const earth = new THREE.Mesh( geometry, material );
-  earth.userData.data = {name: 'earth'}
+  earth.rotateX(45)
   scene.add( earth );
+
 
   geometry = new THREE.SphereGeometry( 4, 64, 64);
   material = new THREE.MeshBasicMaterial( { color: 0x909090 } );
-  texture = new THREE.TextureLoader().load( 'images/moon.webp' );
+  const moonTexture = new THREE.TextureLoader().load( 'images/moon.webp' );
   material = new THREE.MeshPhongMaterial({ color: 0x909090 ,
-    map: texture})
+    map: moonTexture})
   const moon = new THREE.Mesh( geometry, material );
-  moon.userData.data='moon'
+  moon.rotateX(45)
   scene.add( moon );
 
   camera.position.z = 100;
@@ -133,7 +140,7 @@ async function getData() {
   
   window.addEventListener( 'mousemove', onMouseMove );
 
-  
+  const selectedMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
 
   function animate(t) {
     
@@ -146,7 +153,17 @@ async function getData() {
 
     // calculate objects intersecting the picking ray
     const intersects = raycaster.intersectObjects( scene.children );
-    if (intersects[0]) showData(intersects[0].object.userData.data)
+    if (intersects[0] && intersects[0].object.userData.data){
+        showData(intersects[0].object.userData.data)
+        intersects[0].object.material = selectedMaterial
+        if (lastSelected && lastSelected !== intersects[0].object){
+         lastSelected.material=new THREE.MeshPhongMaterial({
+          map: neoTexture,
+          color: 0x909090,
+        })
+      } 
+        lastSelected = intersects[0].object
+    }
 
     /*for ( let i = 0; i < intersects.length; i ++ ) {
 
@@ -224,6 +241,11 @@ async function getData() {
 
 function showData(data){
   console.log('show data:' , data)
+  if (!neoSelected){
+    neoSelected = true;
+    $('#loading').addClass('hidden')
+    $('#text-container').removeClass('hidden')
+  }
   if (data.neoName) {
     $("#name-text").text(data.neoName)
     $('#distance-text').text(data.closestLunar)

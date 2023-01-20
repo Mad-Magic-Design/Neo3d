@@ -13,21 +13,38 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 95vh;
-    background-color: var(--secondary-dark);
+    background-color: var(--secondary-light);
     color: var(--primary-light);
     font-family: 'Strait', sans-serif;
+    background-image: url('./images/star-forming.jpg');
+    background-size: cover;
 }
 
-h1, p, h6{
+h1{
+    font-size: 8rem;
     text-align: center;
 }
 
-h1, h6{
+header{
+    
+}
+
+h3, p, h6{
+    text-align: center;
+}
+
+h6{
     text-decoration: underline;
+    font-size: 3rem;
+}
+
+p{
+    font-size: 1.5rem;
 }
 
 canvas{
     border-radius: 15px;
+    cursor: url('./images/rocket.png'), default;
 }
 
 .canvas-border{
@@ -36,8 +53,22 @@ canvas{
     border-color: var(--primary-dark);
 }
 
+.info-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
 .text-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: var(--secondary-dark);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.hidden{
+    display: none;
 }
